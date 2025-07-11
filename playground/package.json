@@ -4,9 +4,7 @@
   "description": "r_d full-stack course homeworks",
   "main": "index.js",
   "scripts": {
-    "test": "echo 'Ahoj'",
-    "lint":"eslint",
-    "lint:fix":"eslint --fix"
+    "test": "ECHO Ahoj"
   },
   "repository": {
     "type": "git",
