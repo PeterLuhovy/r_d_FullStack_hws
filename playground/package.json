@@ -1,0 +1,25 @@
+{
+  "name": "r_d_fullstack_hws",
+  "version": "0.1.0",
+  "description": "r_d full-stack course homeworks",
+  "main": "index.js",
+  "scripts": {
+    "test": "ECHO Ahoj"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PeterLuhovy/r_d_FullStack_hws.git"
+  },
+  "keywords": [
+    "course",
+    "hw",
+    "test",
+    "js"
+  ],
+  "author": "luhovy.peter",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PeterLuhovy/r_d_FullStack_hws/issues"
+  },
+  "homepage": "https://github.com/PeterLuhovy/r_d_FullStack_hws#readme"
+}
