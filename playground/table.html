@@ -1,15 +1,54 @@
+
+<!--Full-stack pro začátečníky 4 - 0:49:21 heslo:fs-02 https://www.dropbox.com/scl/fi/l0q1prlw36kcg2hr5bt6n/Full-stack-pro-za-te-n-ky-4.mp4?authuser=0&rlkey=krpqup5851sqy9ll49qejod7l&e=1&st=nozqoy9u&dl=0 -->
+<!--Full-stack pro začátečníky 5 heslo:fs-0 https://www.dropbox.com/scl/fi/pa1jk14adkrdzviw2ez4m/Full-stack-pro-za-te-n-ky-5.mp4?authuser=0&rlkey=ianu2bxzjtylwpvikyoqhu4eq&e=1&st=s1wjfyey&dl=0 -->
+
 <!DOCTYPE html>
 <html lang="en">
 
     <head>
         <meta charset="UTF-8">
+        <title>Table</title>
+        <meta name="author" content="Peter Luhový">
+        <meta name="robots" content="noindex, nofollow">
     </head>
 
     <body>
 
         <h1>Nadpis 1</h1>
 
+    <table id="data">
+        <caption>Table 1 - user info</caption>
+        <thead>
+            <tr>
+                <td>Name</td>
+                <td>Surname</td>
+                <td>Email</td>
+                <td>Phone</td>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+        <tfoot>
+            <tr>
+                <th colspan="4">Users</th>
+            </tr>
+        </tfoot>
+    </table>
 
 
     </body>
+
+    <script>
+        var addRow = () => {
+            const table = document.getElementById("data").querySelector("tbody");
+            const newRow = table.insertRow(-1);
+
+            ["phone", "email", "last_name", "first_name"].forEach((fieldName) => {
+                const newValue = document.getElementById(fieldName).value;
+                const newCell = newRow.insertCell(0);
+                let newText = document.createTextNode(newValue);
+                newCell.appendChild(newText);
+            });
+        };
+    </script>
 </html>
