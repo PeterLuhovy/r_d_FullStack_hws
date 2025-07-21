@@ -1,0 +1,62 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Table</title>
+        <meta name="author" content="Peter Luhový">
+        <meta name="robots" content="noindex, nofollow">
+    </head>
+
+    <body>
+        <h1>User data form</h1>
+
+        <form id="formUserData">
+            <label for="userFirstName">First Name:</label>
+            <input id="userFirstName" type="text" name="firstName" placeholder="Write your first name"><br><br>
+            <label for="userLastName">Last Name:</label>
+            <input id="userLastName" type="text" name="lastName" placeholder="Write your last name"><br><br>
+            <label for="userEmail">Email address:</label>
+            <input id="userEmail" type="text" name="email" placeholder="Write your email address"><br><br>
+            <label for="userPhone">Phone number:</label>
+            <input id="userPhone" type="text" name="phone" placeholder="Write your phone number"><br><br>
+        </form><br><br>
+
+        <table id="data">
+            <caption>Table 1 - user info</caption>
+            <thead>
+                <tr>
+                    <td style="text-align:center; min-width:80px; height:40px">Name</td>
+                    <td style="text-align:center; min-width:80px; height:40px">Surname</td>
+                    <td style="text-align:center; min-width:200px; height:40px">Email</td>
+                    <td style="text-align:center; min-width:150px; height:40px">Phone</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr></tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th style="height:40px" colspan="4">Users</th>
+                </tr>
+            </tfoot>
+        </table><br><br>
+    </body>
+
+    <script>
+        var addRow = () => {
+            const table = document.getElementById("data").querySelector("tbody");
+            const newRow = table.insertRow(-1);
+
+            ["userPhone", "userEmail", "userLastName", "userFirstName"].forEach((fieldName) => {
+                const newValue = document.getElementById(fieldName).value;
+                const newCell = newRow.insertCell(0);
+                let newText = document.createTextNode(newValue);
+                newCell.appendChild(newText);
+            });
+        };
+    </script>
+    <button onclick="addRow()">Add Row</button>
+</html>
