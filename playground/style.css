@@ -1,10 +1,10 @@
 
+div {
+    padding: 2px 0 2px 0;
+}
 
-th {
-    border: solid 1px black;
-    padding: 2px 10px 2px 10px;
-    font-weight: bold;
-    text-align:center;
+table {
+    border-spacing: 1px 5px;
 }
 
 tbody {
@@ -23,15 +23,54 @@ thead tr {
     padding: 2px 10px 2px 10px;
 }
 
+th {
+    border: solid 1px black;
+    padding: 2px 10px 2px 10px;
+    font-weight: bold;
+    text-align:center;
+}
+
 td {
     text-align:center;
     padding: 5px;
 }
 
-div {
-    padding: 20px;
+.allPageLayout {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 10px;
 }
 
-table {
-    border-spacing:5px;
+.allPageLayout-div1 {
+    grid-row-start: 1;
+}
+
+.allPageLayout-div2 {
+    grid-row-start: 3;
+}
+
+.allPageLayout-div3 {
+    grid-row-start: 2;
+}
+
+.formLayout {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.formLayout-div1 {
+    grid-row-start: 1;
+}
+
+.formLayout-div2 {
+    grid-row-start: 2;
+}
+
+.formLayout-div3 {
+    grid-row-start: 3;
+}
+.formLayout-div4 {
+    grid-row-start: 4;
 }

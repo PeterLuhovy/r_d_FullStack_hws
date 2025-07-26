@@ -6,52 +6,60 @@
     <head>
         <link href="style.css" rel="stylesheet">
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Table</title>
         <meta name="author" content="Peter Luhový">
         <meta name="robots" content="noindex, nofollow">
-
     </head>
 
     <body>
-        <div id="container_formUserData">
+    <div class="allPageLayout">
+        <div class="allPageLayout-div1">
             <h1>User data form</h1>
-
             <form id="formUserData">
-                <label for="userFirstName">First Name:</label>
-                <input id="userFirstName" type="text" name="firstName" placeholder="Write your first name">
-                <label for="userLastName">Last Name:</label>
-                <input id="userLastName" type="text" name="lastName" placeholder="Write your last name">
-                <label for="userEmail">Email address:</label>
-                <input id="userEmail" type="text" name="email" placeholder="Write your email address">
-                <label for="userPhone">Phone number:</label>
-                <input id="userPhone" type="text" name="phone" placeholder="Write your phone number">
+                <div class="formLayout">
+                    <div class="formLayout-div1">
+                        <label for="userFirstName">First Name:</label>
+                        <input id="userFirstName" type="text" name="firstName" placeholder="Write your first name">
+                    </div>
+                    <div class="formLayout-div2">
+                        <label for="userLastName">Last Name:</label>
+                        <input id="userLastName" type="text" name="lastName" placeholder="Write your last name">
+                    </div>
+                    <div class="formLayout-div3">
+                        <label for="userEmail">Email address:</label>
+                        <input id="userEmail" type="text" name="email" placeholder="Write your email address">
+                    </div>
+                    <div class="formLayout-div4">
+                        <label for="userPhone">Phone number:</label>
+                        <input id="userPhone" type="text" name="phone" placeholder="Write your phone number">
+                    </div>
+                </div>
             </form>
         </div>
 
-
-        <div id="container_tableUserData">
+        <div class="allPageLayout-div2">
             <table id="tableUserData">
                 <caption>Table 1 - user info</caption>
                 <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Surname</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                    </tr>
+                <tr>
+                    <th>Name</th>
+                    <th>Surname</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                    </tr>
+                <tr>
+                </tr>
                 </tbody>
                 <tfoot>
-                    <tr>
-                        <th colspan="4">Users</th>
-                    </tr>
+                <tr>
+                    <th colspan="4">Users</th>
+                </tr>
                 </tfoot>
             </table>
         </div>
-    </body>
 
     <script>
         var addRow = () => {
@@ -67,6 +75,9 @@
         };
     </script>
 
-    <button id="button_addRow" onclick="addRow()">Add Row</button>
-
+        <div class="allPageLayout-div3">
+            <button id="button_addRow" onclick="addRow()">Add Row</button>
+        </div>
+    </div>
+    </body>
 </html>
