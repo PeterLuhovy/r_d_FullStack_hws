@@ -1,4 +1,37 @@
 
+@media (min-width: 767px) {
+    :root {
+        --formLayoutStartColumn-div2: 2 ;
+        --formLayoutStartColumn-div3: 3 ;
+        --formLayoutStartColumn-div4: 4 ;
+        --formLayoutStartRow-div2: 1 ;
+        --formLayoutStartRow-div3: 1 ;
+        --formLayoutStartRow-div4: 1 ;
+    }
+}
+@media (min-width: 400px) and (max-width: 767px) {
+    :root {
+        --formLayoutStartColumn-div2: 2 ;
+        --formLayoutStartColumn-div3: 1 ;
+        --formLayoutStartColumn-div4: 2 ;
+        --formLayoutStartRow-div2: 1 ;
+        --formLayoutStartRow-div3: 2 ;
+        --formLayoutStartRow-div4: 2 ;
+    }
+}
+@media (max-width: 400px) {
+    :root {
+        --formLayoutStartColumn-div2: 1 ;
+        --formLayoutStartColumn-div3: 1 ;
+        --formLayoutStartColumn-div4: 1 ;
+        --formLayoutStartRow-div2: 2 ;
+        --formLayoutStartRow-div3: 3 ;
+        --formLayoutStartRow-div4: 4 ;
+    }
+}
+
+
+
 div {
     padding: 2px 0 2px 0;
 }
@@ -55,22 +88,26 @@ td {
 
 .formLayout {
     display: grid;
-    grid-template-columns: repeat(1, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(4, 1fr);
     gap: 10px;
 }
 
 .formLayout-div1 {
+    grid-column-start: 1;
     grid-row-start: 1;
 }
 
 .formLayout-div2 {
-    grid-row-start: 2;
+    grid-column-start: var(--formLayoutStartColumn-div2);
+    grid-row-start: var(--formLayoutStartRow-div2);
 }
 
 .formLayout-div3 {
-    grid-row-start: 3;
+    grid-column-start: var(--formLayoutStartColumn-div3);
+    grid-row-start: var(--formLayoutStartRow-div3);
 }
 .formLayout-div4 {
-    grid-row-start: 4;
+    grid-column-start: var(--formLayoutStartColumn-div4);
+    grid-row-start: var(--formLayoutStartRow-div4);
 }
