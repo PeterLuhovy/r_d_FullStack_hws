@@ -1,5 +1,5 @@
 
-@media (min-width: 767px) {
+@media (min-width: 768px) {
     :root {
         --formLayoutStartColumn-div2: 2 ;
         --formLayoutStartColumn-div3: 3 ;
@@ -19,7 +19,7 @@
         --formLayoutStartRow-div4: 2 ;
     }
 }
-@media (max-width: 400px) {
+@media (max-width: 399px) {
     :root {
         --formLayoutStartColumn-div2: 1 ;
         --formLayoutStartColumn-div3: 1 ;
