@@ -18,5 +18,6 @@ export default defineConfig([
         arrowParens: true,
         quoteProps: "as-needed",
         commaDangle: "always-multiline",
+        semi: ["error", "always"],
     }),
 ])
