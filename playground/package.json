@@ -4,9 +4,11 @@
   "description": "r_d full-stack course homeworks",
   "main": "index.js",
   "scripts": {
+    "run": "ts-node ../lesson_examples/lesson_10/src/index.ts",
+    "build": "tsc -p .",
     "test": "echo 'Ahoj'",
-    "lint":"eslint",
-    "lint:fix":"eslint --fix"
+    "lint": "eslint",
+    "lint:fix": "eslint --fix"
   },
   "repository": {
     "type": "git",
@@ -33,6 +35,8 @@
     "eslint": "^9.31.0",
     "eslint-plugin-react": "^7.37.5",
     "globals": "^16.3.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3",
     "typescript-eslint": "^8.36.0"
   }
 }

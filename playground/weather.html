@@ -50,10 +50,10 @@
             let userInputSplit = userInputRaw.split(/;|,/);
             if (userInputSplit.length === 0 && !userInputRaw.includes(',') && !userInputRaw.includes(';') && userInputRaw !== "" ){
                 userInputSplit[0] = userInputRaw;
-            };
+            }
             if (userInputRaw === "" ){
                 userInputSplit.splice(0, 1);
-            };
+            }
             document.getElementById('userInputNamesOfCities').style.backgroundColor = "";
             errorMessageTooMuchCities.remove()
             document.getElementById('buttonSubmit').disabled = false;
@@ -68,12 +68,12 @@
             }
             });
 
-        const getWeatherData = async (cityNameToGetData = "no-data") => {
-            if (cityNameToGetData === "no-data") {
-                return
+        const getWeatherData = async (cityNameToGetData) => {
+            if (!cityNameToGetData) {
+                return undefined;
             }
             const resultsCount = "1";
-            const openMeteoGeocodingApiFullUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${cityNameToGetData}&count=${resultsCount}&language=en&format=json`
+            const openMeteoGeocodingApiFullUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(cityNameToGetData)}&count=${resultsCount}&language=en&format=json`
             let cityNameFromApi = undefined
             let cityLatitudeFromApi = undefined
             let cityLongitudeFromApi = undefined
@@ -81,6 +81,9 @@
             let cityMaxTempFromApi = undefined
             try {
                 const response = await fetch(openMeteoGeocodingApiFullUrl);
+                if(!response.ok){
+                    throw new Error("Spadna odpoved");
+                }
                 const dataFromApiResponse = await response.json();
                 const {name, latitude, longitude} = dataFromApiResponse.results[0]
                 cityNameFromApi = name
@@ -99,6 +102,9 @@
             const openMeteoWeatherApiFullUrl = `https://api.open-meteo.com/v1/forecast?latitude=${cityLatitudeFromApi}&longitude=${cityLongitudeFromApi}&hourly=,temperature_2m`
             try {
                 const response = await fetch(openMeteoWeatherApiFullUrl);
+                if(!response.ok){
+                    throw new Error("Spadna odpoved");
+                }
                 const dataFromApiResponse = await response.json();
                 const temperatureFromApiResponseNext24hrs = []
                 for (let i = 23; i < 47; i++) {
@@ -122,12 +128,11 @@
             const tableCityWeatherData = document.getElementById("tableListOfCities")
             for (let i = tableCityWeatherData.rows.length - 1; i > 0; i--) {
                 tableCityWeatherData.deleteRow(i);
-            };
+            }
 
-            const cityWeatherDataAll = await Promise.all([getWeatherData(nameOfCitiesFromUser[0]), getWeatherData(nameOfCitiesFromUser[1]), getWeatherData(nameOfCitiesFromUser[2])])
-            const cityWeatherDataAllCleaned = cityWeatherDataAll.filter(item => item !== undefined);
+            const cityWeatherDataAll = await Promise.all(nameOfCitiesFromUser.map(getWeatherData))
 
-            for (let indexAll = 0; indexAll < cityWeatherDataAllCleaned.length; indexAll++) {
+            for (let indexAll = 0; indexAll < cityWeatherDataAll.length; indexAll++) {
                 const newRow = tableCityWeatherData.querySelector("tbody").insertRow(-1)
                 const cityWeatherDataPart = [...cityWeatherDataAll[indexAll]]
 
