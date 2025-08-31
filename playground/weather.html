@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Weather forecast</title>
+    <meta name="author" content="Peter Luhový">
+    <meta name="robots" content="noindex, nofollow">
+</head>
+<body>
+    <div>
+        <h1>City weather</h1>
+        <p>
+            To view the current weather, enter the city names and confirm by clicking the Submit button. You can enter a maximum of 3 cities. The city names must be separated by a semicolon or a comma. Enjoy your weather forecast :)
+        </p>
+        <form>
+            <label for="userInputNamesOfCities">Enter city names here:</label>
+            <input type="text" id="userInputNamesOfCities" placeholder="Names of cities">
+        </form>
+    </div>
+
+    <div>
+        <table id="tableListOfCities">
+            <thead>
+            <tr>
+                <th>City name</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+                <th>Min. temperature [°C]</th>
+                <th>Max. temperature [°C]</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <script>
+        const errorMessageTooMuchCities = document.createElement("span");
+        errorMessageTooMuchCities.innerText = "You can enter a maximum of 3 cities.";
+        errorMessageTooMuchCities.style.color = "#ff0000"
+
+        let nameOfCitiesFromUser = []
+
+        document.getElementById('userInputNamesOfCities')
+        .addEventListener("input", function () {
+            let userInputRaw = document.getElementById('userInputNamesOfCities').value;
+            let userInputSplit = userInputRaw.split(/;|,/);
+            if (userInputSplit.length === 0 && !userInputRaw.includes(',') && !userInputRaw.includes(';') && userInputRaw !== "" ){
+                userInputSplit[0] = userInputRaw;
+            }
+            if (userInputRaw === "" ){
+                userInputSplit.splice(0, 1);
+            }
+            document.getElementById('userInputNamesOfCities').style.backgroundColor = "";
+            errorMessageTooMuchCities.remove()
+            document.getElementById('buttonSubmit').disabled = false;
+            if (userInputSplit.length > 3) {
+                document.getElementById('userInputNamesOfCities').style.backgroundColor = "#ff0000";
+                document.getElementById("userInputNamesOfCities").parentElement.appendChild(errorMessageTooMuchCities);
+                document.getElementById('buttonSubmit').disabled = true;
+            }
+            nameOfCitiesFromUser = [...userInputSplit];
+            for (let i = 0; i < nameOfCitiesFromUser.length; i++) {
+                nameOfCitiesFromUser[i] = nameOfCitiesFromUser[i].trim()
+            }
+            });
+
+        const getWeatherData = async (cityNameToGetData) => {
+            if (!cityNameToGetData) {
+                return undefined;
+            }
+            const resultsCount = "1";
+            const openMeteoGeocodingApiFullUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(cityNameToGetData)}&count=${resultsCount}&language=en&format=json`
+            let cityNameFromApi = undefined
+            let cityLatitudeFromApi = undefined
+            let cityLongitudeFromApi = undefined
+            let cityMinTempFromApi = undefined
+            let cityMaxTempFromApi = undefined
+            try {
+                const response = await fetch(openMeteoGeocodingApiFullUrl);
+                if(!response.ok){
+                    throw new Error("Spadna odpoved");
+                }
+                const dataFromApiResponse = await response.json();
+                const {name, latitude, longitude} = dataFromApiResponse.results[0]
+                cityNameFromApi = name
+                cityLatitudeFromApi = latitude.toString();
+                cityLongitudeFromApi = longitude.toString();
+            } catch (error) {
+                console.error("Error - can't get geocode data.");
+                cityNameFromApi = "can't get geocode data"
+                cityLatitudeFromApi = "can't get geocode data"
+                cityLongitudeFromApi = "can't get geocode data"
+                cityMinTempFromApi = "can't get geocode data"
+                cityMaxTempFromApi = "can't get geocode data"
+                return [cityNameFromApi, cityLatitudeFromApi, cityLongitudeFromApi, cityMinTempFromApi, cityMaxTempFromApi];
+            };
+            console.log("Geocode data fetched!");
+            const openMeteoWeatherApiFullUrl = `https://api.open-meteo.com/v1/forecast?latitude=${cityLatitudeFromApi}&longitude=${cityLongitudeFromApi}&hourly=,temperature_2m`
+            try {
+                const response = await fetch(openMeteoWeatherApiFullUrl);
+                if(!response.ok){
+                    throw new Error("Spadna odpoved");
+                }
+                const dataFromApiResponse = await response.json();
+                const temperatureFromApiResponseNext24hrs = []
+                for (let i = 23; i < 47; i++) {
+                    temperatureFromApiResponseNext24hrs.push(dataFromApiResponse.hourly.temperature_2m[i]);
+                }
+                cityMinTempFromApi = Math.min(...temperatureFromApiResponseNext24hrs);
+                cityMaxTempFromApi = Math.max(...temperatureFromApiResponseNext24hrs);
+            } catch (error) {
+                console.error("Error - can't get weather data.");
+                cityMinTempFromApi = "can't get weather data"
+                cityMaxTempFromApi = "can't get weather data"
+                return [cityNameFromApi, cityLatitudeFromApi, cityLongitudeFromApi, cityMinTempFromApi, cityMaxTempFromApi];
+            };
+            console.log("Weather data fetched!");
+            return [cityNameFromApi, cityLatitudeFromApi, cityLongitudeFromApi, cityMinTempFromApi, cityMaxTempFromApi];
+        }
+
+        const submitForm = async () => {
+            document.getElementById('userInputNamesOfCities').value = "";
+
+            const tableCityWeatherData = document.getElementById("tableListOfCities")
+            for (let i = tableCityWeatherData.rows.length - 1; i > 0; i--) {
+                tableCityWeatherData.deleteRow(i);
+            }
+
+            const cityWeatherDataAll = await Promise.all(nameOfCitiesFromUser.map(getWeatherData))
+
+            for (let indexAll = 0; indexAll < cityWeatherDataAll.length; indexAll++) {
+                const newRow = tableCityWeatherData.querySelector("tbody").insertRow(-1)
+                const cityWeatherDataPart = [...cityWeatherDataAll[indexAll]]
+
+                for (let indexPart = 0; indexPart < cityWeatherDataPart.length; indexPart++) {
+                    const newCell = newRow.insertCell(indexPart)
+                    newCell.textContent = cityWeatherDataPart[indexPart]
+                }
+            }
+        }
+
+
+    </script>
+
+    <div>
+        <button id="buttonSubmit" onclick="submitForm()">Submit</button>
+    </div>
+
+
+
+
+
+
+
+</body>
+</html>
